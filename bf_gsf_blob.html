@@ -7,7 +7,7 @@
 
 <h1>beautyfort - get stock file</h1>
 
-<p id="demo"></p>
+<p id="demo">Get it here</p>
 <p id="demo2"></p>
 <p id="demo3"></p>
 <p id="demo4"></p>
@@ -16,91 +16,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"></script>
 <script type="text/javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Base64/1.0.1/base64.min.js"></script>
-<script type="text/javascript">
 
-			var vuser = "groomedby";
-			var vsecret = "VwnItb5yS78T4PicQZhCmsl2UkOdK"
-			var randomString = function(length) {
-                var text = "";
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                for(var i = 0; i < length; i++) {
-                    text += possible.charAt(Math.floor(Math.random() * possible.length));
-                }
-                    return text;
-            }
-            var vnonce = randomString(6);
-			var vdate = new Date().toISOString();
-			var pass1 = vnonce+vdate+vsecret
-			var pass2 = CryptoJS.SHA1(pass1).toString();
-			var vpass = btoa(pass2);
-			
-			function b64toBlob(b64Data, contentType, sliceSize) {
-					  contentType = contentType || '';
-					  sliceSize = sliceSize || 512;
-
-					  var byteCharacters = atob(b64Data);
-					  var byteArrays = [];
-
-					  for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-						var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-						var byteNumbers = new Array(slice.length);
-						for (var i = 0; i < slice.length; i++) {
-						  byteNumbers[i] = slice.charCodeAt(i);
-						}
-
-						var byteArray = new Uint8Array(byteNumbers);
-
-						byteArrays.push(byteArray);
-					  }
-    
-					  var blob = new Blob(byteArrays, {type: contentType});
-					  return blob;
-			}
-			
-
-			
-			/*var data = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bf="http://www.beautyfort.com/api/"><soap:Header><bf:AuthHeader> AuthHeader'+
-			'<bf:Username>'+vuser+'</bf:Username><bf:Nonce>'+vnonce+'</bf:Nonce><bf:Created>'+vdate+'</bf:Created><bf:Password>'+vpass+'</bf:Password></bf:AuthHeader></soap:Header><soap:Body><bf:GetHighResImageRequest> GetHighResImageRequestType'+
-			'<bf:TestMode>true</bf:TestMode><bf:StockCode>T34279</bf:StockCode><bf:PurchaseIfNoAccess>true</bf:PurchaseIfNoAccess></bf:GetHighResImageRequest></soap:Body></soap:Envelope>';
-			*/
-var gsf = '<?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bf="http://www.beautyfort.com/api/"><soap:Header><bf:AuthHeader> AuthHeader'+
-			'<bf:Username>'+vuser+'</bf:Username><bf:Nonce>'+vnonce+'</bf:Nonce><bf:Created>'+vdate+'</bf:Created><bf:Password>'+vpass+'</bf:Password></bf:AuthHeader></soap:Header><soap:Body><bf:GetStockFileRequest> GetStockFileRequestType'+
-			'<bf:TestMode>true</bf:TestMode><bf:StockFileFormat>XLSX</bf:StockFileFormat><bf:FieldDelimiter></bf:FieldDelimiter><bf:StockFileFields> ArrayOfStockFileField'+
-			'<bf:StockFileField>Barcode</bf:StockFileField><bf:StockFileField>Brand</bf:StockFileField><bf:StockFileField>Category</bf:StockFileField><bf:StockFileField>Collection</bf:StockFileField><bf:StockFileField>Description</bf:StockFileField><bf:StockFileField>Gender</bf:StockFileField><bf:StockFileField>LastPurchasedDate</bf:StockFileField><bf:StockFileField>LastPurchasedPrice</bf:StockFileField><bf:StockFileField>Price</bf:StockFileField><bf:StockFileField>Size</bf:StockFileField><bf:StockFileField>StockCode</bf:StockFileField><bf:StockFileField>StockLevel</bf:StockFileField><bf:StockFileField>ThumbnailImageUrl</bf:StockFileField><bf:StockFileField>Type</bf:StockFileField><bf:StockFileField>YourRating</bf:StockFileField><bf:StockFileField>YourStockCode</bf:StockFileField></bf:StockFileFields><bf:SortBy>Category</bf:SortBy></bf:GetStockFileRequest></soap:Body></soap:Envelope>'
-			
-var xhr = new XMLHttpRequest();
-
-xhr.addEventListener("readystatechange", function () {
-  if (this.readyState === 4) {
-	
-	if (xhr.status == 200) {
-            fullResponse = xhr.responseText;
-            alert(fullResponse);
-            var xmlDoc = xhr.responseXML;
-            var x = xmlDoc.getElementsByTagName("ns1:File")[0];
-            //var contentType = 'vnd.ms-excel';
-			var contentType = 'text/plain';
-            var y = x.childNodes[0];
-            var b64Data = y.nodeValue
-            var blob = b64toBlob(b64Data, contentType)
-            saveAs(blob, "text.csv"); 
-        }
-	
-	//document.getElementById("demo4").innerHTML = '<img src="data:image/png;base64, ' + inner +'"/>';
-	//document.getElementById("demo5").innerHTML = 'json:</br>' + file;
-  }
-});
-
-xhr.open("POST", "http://www.beautyfort.com/api/soap");
-xhr.setRequestHeader("content-type", "text/xml");
-
-xhr.send(gsf);  
-			
-			
-			
-			
-</script>
 </body>
 
 
